@@ -1,0 +1,56 @@
+import discord
+from discord.ext import commands
+
+
+class Moderation(commands.Cog, command_attrs=dict(hidden=True)):
+    def __init__(self, bot):
+        self.bot = bot
+
+    @commands.command()
+    @commands.has_guild_permissions(kick_members=True)
+    async def kick(self, ctx, member: discord.Member, reason=None):
+        if reason is None:
+            reason = f"{ctx.authot} kicked {member}"
+
+        await ctx.guild.kick(member, reason=f"{member}: Kicked for {reason}\nBy: {ctx.author}")
+
+        kick_embed = discord.Embed(
+            title=f"Banned {member.display_name}",
+            description=f"{member}: Kicked for {reason}\nBy: {ctx.author}",
+            color=self.bot.lost_color)
+
+        await ctx.send(embed=kick_embed)
+
+    @commands.command()
+    @commands.has_guild_permissions(ban_members=True)
+    async def ban(self, ctx, member: discord.Member, reason=None):
+        if reason is None:
+            reason = f"{ctx.authot} banned {member}"
+
+        await ctx.guild.ban(member, reason=f"{member}: Banned for {reason}\nBy: {ctx.author}")
+
+        ban_embed = discord.Embed(
+            title=f"Banned {member.display_name}",
+            description=f"{member}: Banned for {reason}\nBy: {ctx.author}",
+            color=self.bot.lost_color)
+
+        await ctx.send(embed=ban_embed)
+
+    @commands.command()
+    @commands.has_guild_permissions(ban_members=True)
+    async def unban(self, ctx, member: discord.Member, reason=None):
+        if reason is None:
+            reason = f"{ctx.authot} unbanned {member}"
+
+        await ctx.guild.unban(member, reason=f"{member}: Unbanned for {reason}\nBy: {ctx.author}")
+
+        ban_embed = discord.Embed(
+            title=f"Banned {member.display_name}",
+            description=f"{member}: Unbanned for {reason}\nBy: {ctx.author}",
+            color=self.bot.lost_color)
+
+        await ctx.send(embed=ban_embed)
+
+
+def setup(bot):
+    bot.add_cog(Moderation(bot))
