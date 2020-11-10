@@ -8,5 +8,5 @@ My Discord Bot that I am working on
 
 # My Checklist
 - [ ] Database
-- [x] Information Commands
-- [ ] Moderation Commands
+- [ ] Information Commands
+- [x] Moderation Commands
