@@ -6,7 +6,16 @@ My Discord Bot that I am working on
 - Don't complain when my code doesn't work for you
 - Please don't come to me asking for me to make a command
 
-# My Checklist
+### My Checklist
 -[]Database  
 -[]Information Commands  
 -[x]Moderation Commands  
+- [ ] Mercury
+- [x] Venus
+- [x] Earth (Orbit/Moon)
+- [x] Mars
+- [ ] Jupiter
+- [ ] Saturn
+- [ ] Uranus
+- [ ] Neptune
+- [ ] Comet Haley
