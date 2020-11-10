@@ -7,8 +7,6 @@ My Discord Bot that I am working on
 - Please don't come to me asking for me to make a command
 
 # My Checklist
-[ ]Database
-# br
+[ ]Database  
 [ ]Information Commands
-# br
-[x]Moderation Commands
+[x]Moderation Commands  
