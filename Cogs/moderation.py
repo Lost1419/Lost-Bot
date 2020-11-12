@@ -2,8 +2,25 @@ import discord
 from discord.ext import commands
 
 
+# From R.Danny by Danny (Raptz). https://github.com/Rapptz/RoboDanny
+class BannedMember(commands.Converter):
+    async def convert(self, ctx, argument):
+        if argument.isdigit():
+            member_id = int(argument, base=10)
+            try:
+                return await ctx.guild.fetch_ban(discord.Object(id=member_id))
+            except discord.NotFound:
+                raise commands.BadArgument('This member has not been banned before.') from None
+
+        ban_list = await ctx.guild.bans()
+        entity = discord.utils.find(lambda u: str(u.user) == argument, ban_list)
+
+        if entity is None:
+            raise commands.BadArgument('This member has not been banned before.')
+        return entity
+
+
 class Moderation(commands.Cog, command_attrs=dict(hidden=True)):
-    """ Moderation"""
     def __init__(self, bot):
         self.bot = bot
 
@@ -44,11 +61,11 @@ class Moderation(commands.Cog, command_attrs=dict(hidden=True)):
 
     @commands.command()
     @commands.has_guild_permissions(ban_members=True)
-    async def unban(self, ctx, member: discord.User, *, reason=None):
+    async def unban(self, ctx, member: BannedMember, *, reason=None):
         await ctx.guild.unban(member, reason=f"{member}: Unbanned for {reason}\nBy: {ctx.author}")
 
         ban_embed = discord.Embed(
-            title=f"Unbanned {member.display_name}",
+            title=f"Unbanned {member}",
             description=f"{member}: Unbanned for {reason}\nBy: {ctx.author}",
             color=self.bot.lost_color)
 
