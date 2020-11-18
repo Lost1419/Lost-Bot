@@ -1,27 +1,7 @@
 import discord
-import requests
 import asyncio
 import typing
 from discord.ext import commands, tasks
-
-blacklisted_users = [402939508615544832]
-
-
-def not_blacklisted():
-    def predicate(ctx):
-        if ctx.author.id in blacklisted_users:
-            return False
-        else:
-            return True
-
-    return commands.check(predicate)
-
-
-def guild_owner():
-    def predicate(ctx):
-        return ctx.author.id == ctx.guild.owner_id
-
-    return commands.check(predicate)
 
 
 class Random(commands.Cog):
@@ -36,22 +16,6 @@ class Random(commands.Cog):
         else:
             msg_embed = discord.Embed(title=f"{ctx.author}", description=message)
             await ctx.send(embed=msg_embed)
-
-    @commands.group(invoke_without_command=True)
-    @not_blacklisted()
-    async def spam(self, ctx, channel: discord.TextChannel, *, msg):
-        self.spaming.start(channel=channel, spam_msg=msg)
-        await ctx.send("Spam has been started!")
-
-    @spam.command()
-    @not_blacklisted()
-    async def stop(self, ctx):
-        self.spaming.stop()
-        await ctx.send("Spam Stopped")
-
-    @tasks.loop(seconds=15)
-    async def spaming(self, channel: discord.TextChannel, spam_msg: str):
-        await channel.send(spam_msg)
 
     @commands.command()
     async def math(self, ctx, number_1: float, operator: str, number_2: float):
@@ -74,17 +38,6 @@ class Random(commands.Cog):
         async with channel.typing():
             await asyncio.sleep(time)
             await channel.send(msg)
-
-    @commands.command()
-    async def get(self, ctx, url: str):
-        request = requests.get(url)
-        print(request.text)
-
-    @commands.command()
-    @guild_owner()
-    async def test(self, ctx):
-        self.bot.load_extension("Cogs.test")
-        await ctx.send("Done!")
 
 
 def setup(bot):
