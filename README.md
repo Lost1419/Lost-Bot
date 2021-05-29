@@ -8,5 +8,5 @@ My Discord Bot that I am working on. Please don't hhost your own instance of the
 
 # My Checklist
 - [x] Database
-- [ ] Information Commands
+- [x] Information Commands
 - [x] Moderation Commands
